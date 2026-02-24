@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Mini Code Editor</title>
+    <style>
+        /* CSS: จัดหน้าจอให้แบ่งเป็นฝั่งพิมพ์กับฝั่งแสดงผล */
+        body { font-family: sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; background: #2c3e50; }
+        .header { padding: 10px 20px; color: white; background: #1a252f; font-weight: bold; }
+        
+        .editor-container { display: flex; flex: 1; gap: 5px; padding: 5px; overflow: hidden; }
+        .input-area { display: flex; flex-direction: column; flex: 1; gap: 5px; }
+        
+        textarea {
+            flex: 1; background: #1e1e1e; color: #d4d4d4; border: 1px solid #333;
+            padding: 10px; font-family: 'Courier New', monospace; resize: none; outline: none;
+        }
+        textarea:focus { border-color: #3498db; }
+
+        /* ฝั่งแสดงผล (Iframe) */
+        #output {
+            flex: 1; background: white; border: none; border-radius: 4px;
+        }
+
+        .label { color: #abb2bf; font-size: 12px; margin-bottom: 2px; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <div class="header">JS Editor(No Gemini, Trust me :) )</div>
+
+    <div class="editor-container">
+        <div class="input-area">
+            <div class="label">HTML</div>
+            <textarea id="html-code" placeholder="เขียน HTML ที่นี่..." oninput="runEditor()"><h1>ลืมส่งงานง่ะ😔😔</h1></textarea>
+            
+            <div class="label">CSS</div>
+            <textarea id="css-code" placeholder="เขียน CSS ที่นี่..." oninput="runEditor()">h1 { color: blue; text-align: center; font-family: sans-serif; }</textarea>
+            
+            <div class="label">JavaScript</div>
+            <textarea id="js-code" placeholder="เขียน JS ที่นี่..." oninput="runEditor()">console.log('Editor is ready!');</textarea>
+        </div>
+
+        <iframe id="output"></iframe>
+    </div>
+
+    <script>
+        // JS: ฟังก์ชันดึงค่าจาก textarea ไปแสดงใน iframe
+        function runEditor() {
+            const html = document.getElementById("html-code").value;
+            const css = "<style>" + document.getElementById("css-code").value + "</style>";
+            const js = "<script>" + document.getElementById("js-code").value + "<\/script>";
+            
+            const output = document.getElementById("output");
+
+            // รวมทุกอย่างเข้าด้วยกันแล้วใส่ใน srcdoc ของ iframe
+            output.srcdoc = html + css + js;
+        }
+
+        // สั่งให้รันครั้งแรกตอนโหลดหน้าเว็บ
+        window.onload = runEditor;
+    </script>
+
+</body>
+</html>
